@@ -1,0 +1,77 @@
+cabal-version: 2.2
+
+-- This file has been generated from package.yaml by hpack version 0.39.1.
+--
+-- see: https://github.com/sol/hpack
+
+name:           EDSL-ModalLogic
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/githubuser/EDSL-ModalLogic#readme>
+homepage:       https://github.com/githubuser/EDSL-ModalLogic#readme
+bug-reports:    https://github.com/githubuser/EDSL-ModalLogic/issues
+author:         Author name here
+maintainer:     example@example.com
+copyright:      2026 Author name here
+license:        BSD-3-Clause
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    CHANGELOG.md
+
+source-repository head
+  type: git
+  location: https://github.com/githubuser/EDSL-ModalLogic
+
+library
+  exposed-modules:
+      Eval
+      Monad
+      Parser
+      PP
+      Theorem
+      Types
+  other-modules:
+      Paths_EDSL_ModalLogic
+  autogen-modules:
+      Paths_EDSL_ModalLogic
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+    , parsec
+    , pretty
+  default-language: Haskell2010
+
+executable EDSL-ModalLogic-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_EDSL_ModalLogic
+  autogen-modules:
+      Paths_EDSL_ModalLogic
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      EDSL-ModalLogic
+    , base >=4.7 && <5
+    , parsec
+    , pretty
+  default-language: Haskell2010
+
+test-suite EDSL-ModalLogic-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_EDSL_ModalLogic
+  autogen-modules:
+      Paths_EDSL_ModalLogic
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      EDSL-ModalLogic
+    , base >=4.7 && <5
+    , parsec
+    , pretty
+  default-language: Haskell2010
