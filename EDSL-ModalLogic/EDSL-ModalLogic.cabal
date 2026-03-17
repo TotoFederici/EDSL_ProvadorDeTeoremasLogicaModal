@@ -29,6 +29,7 @@ library
       Monad
       Parser
       PP
+      PrintChart
       Theorem
       Types
   other-modules:
