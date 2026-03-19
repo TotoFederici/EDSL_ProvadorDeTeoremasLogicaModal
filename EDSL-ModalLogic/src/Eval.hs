@@ -20,6 +20,10 @@ checkPends = do (SC pend lits univ wlds next) <- getState
                       (f:fs) -> do putState (SC fs lits univ wlds next)
                                    evalForm f
 
+checkForLocks :: Form -> [LabeledForm] -> Bool
+checkForLocks f lf = let lfs = [g | (w, g) <- lf, f == g]
+                     in not (null lfs)
+
 evalForm :: LabeledForm -> Prover ()
 
 -- Constantes: Si es True seguimos, si es Bottom conrtamos la rama
@@ -85,11 +89,13 @@ evalForm (w, Not (And f1 f2))     = do (SC pend lits univ wlds next) <- getState
 -- Operadores modales
 
 evalForm (_, Dia f)               = do (SC pend lits univ wlds next) <- getState
-                                       let newWorld = next + 1
-                                           heritage = map (\form -> (newWorld,form)) univ
-                                           newPends = (newWorld,f) : heritage ++ pend
-                                       putState (SC newPends lits univ (newWorld:wlds) newWorld)
-                                       checkPends
+                                       if (checkForLocks f lits) || (checkForLocks f pend)
+                                       then checkPends
+                                       else let newWorld = next + 1
+                                                heritage = map (\form -> (newWorld,form)) univ
+                                                newPends = (newWorld,f) : heritage ++ pend
+                                            in do putState (SC newPends lits univ (newWorld:wlds) newWorld)
+                                                  checkPends
 
 evalForm (_, Box f)               = do (SC pend lits univ wlds next) <- getState
                                        let copyToAll = map (\wl -> (wl, f)) wlds
@@ -106,8 +112,10 @@ evalForm (_, Not (Dia f))         = do (SC pend lits univ wlds next) <- getState
 
 -- Equivalencia logica: ~[]p = <>~p
 evalForm (_, Not (Box f))         = do (SC pend lits univ wlds next) <- getState
-                                       let newWorld = next + 1
-                                           heritage = map (\form -> (newWorld,form)) univ
-                                           newPends = (newWorld, Not f) : heritage ++ pend
-                                       putState (SC newPends lits univ (newWorld:wlds) newWorld)
-                                       checkPends
+                                       if (checkForLocks (Not f) lits) || (checkForLocks (Not f) pend)
+                                       then checkPends
+                                       else let newWorld = next + 1
+                                                heritage = map (\form -> (newWorld,form)) univ
+                                                newPends = (newWorld,Not f) : heritage ++ pend
+                                            in do putState (SC newPends lits univ (newWorld:wlds) newWorld)
+                                                  checkPends

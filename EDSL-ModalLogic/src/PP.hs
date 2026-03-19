@@ -25,14 +25,14 @@ ppVar = text
 
 ppForm :: Form -> Doc
 ppForm FTrue         = text "T"
-ppForm FBottom       = text "B"
+ppForm FBottom       = text "⊥"
 ppForm (Var p)       = ppVar p
-ppForm (Not p)       = text "~" <> parensIf (isBinary p) (ppForm p)
-ppForm (Box p)       = text "[]" <> parensIf (isBinary p) (ppForm p)
-ppForm (Dia p)       = text "<>" <> parensIf (isBinary p) (ppForm p)
-ppForm (And p q)     = parensBinary p q "&&"
-ppForm (Or p q)      = parensBinary p q "||"
-ppForm (Implies p q) = parensBinary p q "->"
+ppForm (Not p)       = text "¬" <> parensIf (isBinary p) (ppForm p)
+ppForm (Box p)       = text "□" <> parensIf (isBinary p) (ppForm p)
+ppForm (Dia p)       = text "◇" <> parensIf (isBinary p) (ppForm p)
+ppForm (And p q)     = parensBinary p q "∧"
+ppForm (Or p q)      = parensBinary p q "∨"
+ppForm (Implies p q) = parensBinary p q "→"
 
 renderForm :: Form -> String
 renderForm = render . ppForm
