@@ -33,7 +33,7 @@ interactive = do putStrLn "Ingrese una formula (o escriba 'exit' para terminar):
                                    interactive
 
 fileReader :: IO ()
-fileReader = do putStrLn "Ingrese el nombre de un archivo del directorio 'examples' (o escriba 'salir' para terminar):"
+fileReader = do putStrLn "Ingrese el nombre de un archivo del directorio 'examples' (o escriba 'exit' para terminar):"
                 fp <- getLine
                 putStrLn ""
                 case fp of
@@ -49,16 +49,19 @@ fileReader = do putStrLn "Ingrese el nombre de un archivo del directorio 'exampl
                                           fileReader
 processLines :: [String] -> IO ()
 processLines []     = return ()
-processLines (l:ls) = case parseForm "Syntax error" l of
-                        Left e  -> do putStrLn $ show e ++ "\n"
-                                      processLines ls
-                        Right f -> do showTheorem f
-                                      processLines ls
+processLines (l:ls) 
+        | all (== ' ') l = processLines ls  -- Si la línea está vacía o son puros espacios, la ignoramos y pasamos a la siguiente.
+        | otherwise      = case parseForm "Syntax error" l of
+                             Left e  -> do putStrLn $ show e ++ "\n"
+                                           processLines ls
+                             Right f -> do showTheorem f
+                                           processLines ls
 
 showTheorem :: Form -> IO ()
 showTheorem f = case checkTheorem f of
                   Nothing     -> do putStrLn $ (renderForm f) ++ " es un teorema!\n"
                   Just (t, w) -> do putStrLn ((renderForm f) ++ " no es un teorema\n")
-                                    putStrLn "Contraejemplo"
-                                    counterExample t w
-                                    putStrLn ""
+                                    if (t == []) then return () 
+                                    else do putStrLn "Contraejemplo"
+                                            counterExample t w
+                                            putStrLn ""

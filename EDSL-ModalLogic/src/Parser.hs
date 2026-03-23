@@ -12,7 +12,7 @@ tokenize = makeTokenParser
     , commentEnd      = "*/"
     , commentLine     = "//"
     , opLetter        = char '='
-    , reservedNames   = ["T", "B"] -- T := True | B := Bottom
+    , reservedNames   = ["T", "F"] -- T := True | F := Bottom
     , reservedOpNames = [ "->", "&&", "||", "~", "<>", "[]"]
     }
   )
@@ -53,7 +53,7 @@ pConst :: Parser Form
 pConst = do try (reserved tokenize "T")
             return FTrue
         <|>
-         do try (reserved tokenize "B")
+         do try (reserved tokenize "F")
             return FBottom
 
 pVar :: Parser Form
