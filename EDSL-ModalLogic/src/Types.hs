@@ -1,6 +1,5 @@
 module Types where
 
--- Variables proposicionales
 type Var = String
 
 -- Tipo para las formulas - AST
