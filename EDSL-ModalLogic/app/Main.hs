@@ -58,7 +58,7 @@ showHelp = putStrLn $ unlines
     , "================================================================="
     , ""
     , " Constantes      : T (Verdadero)  |  F (Falso)"
-    , " Variables       : Cualquier cadena de texto (ej. p, q, p1)"
+    , " Variables       : Cualquier cadena de texto (ej. p, q, hola, mundo)"
     , " Negación        : ~P"
     , " Necesidad (Box) : []P"
     , " Posibilidad     : <>P"
@@ -66,7 +66,7 @@ showHelp = putStrLn $ unlines
     , " Disyunción (O)  : P || Q"
     , " Implicación     : P -> Q"
     , ""
-    , " Precedencia: Unarios (~, [], <>) > Conjunción > Disyunción > Implicación."
+    , " Precedencia: (~, [], <>) > (&&) > (||) > (->)."
     , " Se puede usar paréntesis '(' y ')' para agrupar operaciones."
     , "================================================================="
     , ""
@@ -90,7 +90,7 @@ fileReader = do
                                 fileReader
                         else do s <- readFile path
                                 let forms = lines s
-                                putStrLn $ "--- Archivo:" ++ fp ++ " ---\n"
+                                putStrLn $ "--- Archivo: " ++ fp ++ " ---\n"
                                 processLines forms
                                 fileReader
 
