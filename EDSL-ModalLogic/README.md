@@ -2,11 +2,11 @@
 
 - Guia de uso.
 
-    Compilar el proyecto:
+  -Compilar el proyecto:
   
     En el directorio 'EDSL-ModalLogic' correr el comando 'stack build'
 
-    Utilización del demostrador:
+  -Utilización del demostrador:
   
     En el directorio 'EDSL-ModalLogic' correr el comando 'stack run', esto automaticamente lanzará     una interfaz interactiva, Elegir:
         1) Para una interfaz donde se pide ingresar una formula y revisar la sintaxis del lenguaje
